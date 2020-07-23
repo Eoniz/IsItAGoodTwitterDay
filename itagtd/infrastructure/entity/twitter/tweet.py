@@ -14,5 +14,5 @@ class Tweet(BaseModel):
             favorite_count=status.favorite_count,
             lang=status.lang,
             reteet_count=status.retweet_count,
-            text=status.text
+            text=status.full_text
         )

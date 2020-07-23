@@ -17,7 +17,7 @@ def _get_tweets_for_top_trends_from_json(json: Any) -> List[TrendTweets]:
     ]
 
 
-class TwitterClient(tweepy.API):
+class TwitterConnector(tweepy.API):
     def __init__(
             self, *,
             consumer_key: str,
@@ -40,11 +40,11 @@ class TwitterClient(tweepy.API):
         ]
 
         results = []
-        for trend in trends[:2]:
-            tweets = self.search(q=trend.query, lang="fr", result_type="popular")
+        for trend in trends:
+            tweets = self.search(q=trend.query, lang="fr", result_type="popular", tweet_mode="extended")
             trend_tweets = []
 
-            for tweet in tweets[:2]:
+            for tweet in tweets:
                 trend_tweets.append(Tweet.from_status(tweet))
 
             results.append(TrendTweets(trend=trend.query, tweets=trend_tweets))

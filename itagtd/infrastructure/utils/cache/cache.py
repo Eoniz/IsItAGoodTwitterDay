@@ -13,7 +13,7 @@ def _get_data_from_file(cls, path: str) -> Any:
         return cls(json.load(json_file))
 
 
-def cache(cls, expiration: float = 10):
+def cache(cls, expiration: float = 3600):
     __cache = {}
 
     def inner(func):
@@ -28,9 +28,9 @@ def cache(cls, expiration: float = 10):
             for item_to_remove in __items_to_remove:
                 del __cache[item_to_remove.name]
 
-                path = os.path.join(__config.project_root, f"cache/{item_to_remove.name}.json")
-                if os.path.exists(path):
-                    os.remove(path)
+                item_path = os.path.join(__config.project_root, f"cache/{item_to_remove.name}.json")
+                if os.path.exists(item_path):
+                    os.remove(item_path)
 
             if (
                     func.__qualname__ in __cache
